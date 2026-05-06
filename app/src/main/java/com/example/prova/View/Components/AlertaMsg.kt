@@ -1,0 +1,7 @@
+package com.example.prova.View.Components
+
+data class AlertaMsg (
+    val mensagem : String,
+    val buttonMsg : String,
+    val onConfirm : () -> Unit
+)
