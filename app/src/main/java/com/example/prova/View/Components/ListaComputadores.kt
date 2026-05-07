@@ -135,7 +135,7 @@ fun ListaComputadores(navController : NavController, cpfCliente : String){
                         modifier = Modifier.fillMaxWidth()
                             .clickable{
                                 modelo = computador.modelo
-                                //TODO colocar ação
+                                navController.navigate("computador/${computador.id}")
                             }.padding(10.dp)
                     )
                     Spacer(modifier = Modifier.height(10.dp))

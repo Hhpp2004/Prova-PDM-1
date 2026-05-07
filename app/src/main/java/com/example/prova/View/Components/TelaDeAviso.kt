@@ -30,6 +30,23 @@ fun Alerta(config: AlertaMsg, onDismiss: () -> Unit) {
             }
         },
 
+        dismissButton = {
+            if(config.secondButtonMsg != null && config.onSecondButton != null){
+                Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(R.color.white),
+                        contentColor = colorResource(R.color.black)
+                    ),
+                    onClick = {
+                        onDismiss()
+                        config.onSecondButton()
+                    }
+                ) {
+                    Text(config.secondButtonMsg)
+                }
+            }
+        },
+
         text = {
             Text(config.mensagem)
         }

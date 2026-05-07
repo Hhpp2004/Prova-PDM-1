@@ -37,6 +37,7 @@ import androidx.navigation.NavController
 import com.example.prova.Models.Cliente
 import com.example.prova.R
 import com.example.prova.Repository.ClienteRepository
+import com.example.prova.Service.Notificacao
 
 @Composable
 fun clienteScreen(navController : NavController){
@@ -45,8 +46,8 @@ fun clienteScreen(navController : NavController){
     var nome by rememberSaveable{mutableStateOf("")}
     var cpf by rememberSaveable{mutableStateOf("")}
     var alertaState by remember{mutableStateOf<AlertaMsg?>(null)}
-
     val context = LocalContext.current
+    val notification = Notificacao(context)
     val controller = remember(context) {
         ClienteRepository(context)
     }
@@ -170,13 +171,13 @@ fun clienteScreen(navController : NavController){
                             email = email
                         )
                         controller.save(cliente)
+                        notification.showNotification("Cliente cadastrado","Um novo cliente foi cadastrado na nossa base de dados.")
                         navController.popBackStack()
                     } else {
                         alertaState = AlertaMsg(
                             "Esse Cliente já existe",
                             "OK",
                             {
-                                navController.popBackStack()
                             }
                         )
                     }

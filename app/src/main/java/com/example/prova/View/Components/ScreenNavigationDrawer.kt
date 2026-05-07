@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -75,9 +76,11 @@ fun NavigationDrawer(navController : NavController){
     }
 
     ModalNavigationDrawer(
+        modifier = Modifier.fillMaxSize(),
         drawerState = drawerState,
+        gesturesEnabled = true,
         drawerContent = {
-            ModalDrawerSheet{
+            ModalDrawerSheet(modifier = Modifier.width(300.dp)){
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -136,8 +139,7 @@ fun NavigationDrawer(navController : NavController){
                     }
                 }
             }
-        },
-        gesturesEnabled = true
+        }
     ){
         Scaffold(
             topBar = {
@@ -190,7 +192,7 @@ fun NavigationDrawer(navController : NavController){
                         }
                     }
                 } else {
-                    LazyColumn{
+                    LazyColumn(modifier = Modifier.fillMaxSize()){
                         items(stateList){ cliente ->
                             Text(
                                 color = colorResource(R.color.black),

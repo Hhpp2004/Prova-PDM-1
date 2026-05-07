@@ -39,6 +39,7 @@ import androidx.navigation.NavController
 import com.example.prova.Models.Cliente
 import com.example.prova.R
 import com.example.prova.Repository.ClienteRepository
+import com.example.prova.Service.Notificacao
 
 
 @Composable
@@ -51,6 +52,9 @@ fun TelaCliente(navController : NavController, cpfCliente : String){
     var clienteBanco by remember{mutableStateOf<Cliente?>(null)}
 
     val context = LocalContext.current
+
+    val notification = Notificacao(context)
+
     val controller = remember(context) {
         ClienteRepository(context)
     }
@@ -88,12 +92,6 @@ fun TelaCliente(navController : NavController, cpfCliente : String){
             color = colorResource(R.color.black),
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 16.dp)
-        )
-        Spacer(modifier = Modifier.height(15.dp))
-        HorizontalDivider(
-            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-            color = colorResource(R.color.black),
-            thickness = 2.dp
         )
         Spacer(modifier = Modifier.height(15.dp))
         HorizontalDivider(
@@ -184,11 +182,13 @@ fun TelaCliente(navController : NavController, cpfCliente : String){
                         cpf = if(cpf.isNotBlank()) cpf else clienteAtual.cpf
                     )
                     controller.updateByCpf(cliente, clienteAtual.cpf)
+                    notification.showNotification("Dados atualizados","Os seus dados ${nome} foram atualizados com sucesso")
                     clienteBanco = cliente
                     nome = ""
                     telefone = ""
                     email = ""
                     cpf = ""
+
                     alertaState = AlertaMsg(
                         "Dados atualizados com sucesso",
                         "OK",
@@ -214,6 +214,7 @@ fun TelaCliente(navController : NavController, cpfCliente : String){
                 onClick = {
                     val cpfParaApagar = clienteBanco?.cpf ?: cpfCliente
                     controller.delete(cpfParaApagar)
+                    notification.showNotification("Dados atualizados", "Os seus dados foram apagados com sucesso")
                     navController.popBackStack()
                 }
             ){
@@ -232,7 +233,7 @@ fun TelaCliente(navController : NavController, cpfCliente : String){
                 contentColor = colorResource(R.color.white)
             ),
             onClick = {
-                navController.navigate("computador/${clienteBanco?.cpf ?: cpfCliente}")
+                navController.navigate("listacomp/${clienteBanco?.cpf ?: cpfCliente}")
             },
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 12.dp),
             shape = RoundedCornerShape(50)

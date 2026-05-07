@@ -118,6 +118,19 @@ class ComputadorRepository(context : Context) {
         }
     }
 
+    fun transferirComputador(idComputador: String, novoCpf: String) {
+        val db = myDatabase.writableDatabase
+        try {
+            val values = ContentValues().apply {
+                put("fk_cpf", novoCpf)
+            }
+            db.update("computador", values, "id = ?", arrayOf(idComputador))
+        } finally {
+            db.close()
+        }
+    }
+
+
     fun updateById(computador : Computador, id : String){
         val dbUpdate = myDatabase.writableDatabase
         try{
