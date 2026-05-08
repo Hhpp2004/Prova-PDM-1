@@ -1,0 +1,2 @@
+Cliente(email='henriqueopereirahp@outlook.com', telefone='147', nome='Henrique ', cpf='123')
+Cliente(email='joao@gmail.com', telefone='156', nome='João ', cpf='1234')

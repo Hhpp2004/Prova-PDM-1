@@ -10,6 +10,7 @@ Aplicativo Android desenvolvido em Kotlin com Jetpack Compose para cadastrar, li
 - Cadastro de computadores vinculados a um cliente.
 - Listagem de computadores por cliente.
 - Visualização, atualização, transferência de dono e remoção de computadores.
+- Backup dos dados de clientes e computadores em arquivos `.txt`.
 - Notificações locais após algumas operações de cadastro, atualização e exclusão.
 
 ## Tecnologias
@@ -34,6 +35,7 @@ app/src/main/java/com/example/prova
 │   ├── ClienteRepository.kt
 │   └── ComputadorRepository.kt
 ├── Service
+│   ├── Backup.kt
 │   └── Notificacao.kt
 ├── View/Components
 │   ├── CadastroCliente.kt
@@ -53,6 +55,17 @@ Tabelas:
 
 - `cliente`: CPF, nome, email e telefone.
 - `computador`: ID, modelo, memoria RAM, preco e CPF do cliente dono.
+
+## Backup dos Dados
+
+O menu lateral possui duas opções de backup:
+
+- `Backup dos dados dos computadores`: gera o arquivo `todos computadores.txt`.
+- `Backup dos dados dos clientes`: gera o arquivo `todos clientes.txt`.
+
+Os arquivos são criados na pasta pública de Downloads do dispositivo. Cada registro é salvo em uma linha, usando a representação textual dos objetos `Cliente` e `Computador`.
+
+Quando não há dados para salvar, o app exibe uma mensagem de aviso. Quando o backup é concluído, uma notificação local informa o sucesso da operação.
 
 ## Navegação
 
@@ -100,5 +113,4 @@ O app solicita a permissão `POST_NOTIFICATIONS` para exibir notificações loca
 
 ## Observações
 
-- O botão "Backup dos dados" aparece no menu lateral, mas ainda está marcado como TODO no código.
 - Ao atualizar a versão do banco em `BancoDeDados.kt`, o método `onUpgrade` recria as tabelas, apagando os dados locais existentes.

@@ -1,0 +1,2 @@
+Computador(id='4faff6a0-939b-4c2d-bb9b-bce7f47348fd', modelo='Ideapad', memoriaRam=24.0, fkCpf=Cliente(email='henriqueopereirahp@outlook.com', telefone='147', nome='Henrique ', cpf='123'), preco=5000.0)
+Computador(id='d28ae979-6db8-422e-9f9d-9c54f5276ea2', modelo='ThinkPad', memoriaRam=16.0, fkCpf=Cliente(email='henriqueopereirahp@outlook.com', telefone='147', nome='Henrique ', cpf='123'), preco=3500.0)

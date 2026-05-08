@@ -49,8 +49,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.prova.Models.Cliente
+import com.example.prova.Models.Computador
 import com.example.prova.R
 import com.example.prova.Repository.ClienteRepository
+import com.example.prova.Repository.ComputadorRepository
+import com.example.prova.Service.Backup
+import com.example.prova.Service.Notificacao
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,20 +63,36 @@ fun NavigationDrawer(navController : NavController){
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var nome : String by rememberSaveable{mutableStateOf("")}
-
+    var alertaState by remember{mutableStateOf<AlertaMsg?>(null)}
+    val backup : Backup = Backup()
     val stateList = remember{
         mutableStateListOf<Cliente>()
     }
     val context : Context = LocalContext.current
+    val notificacao = Notificacao(context)
     val isPreview : Boolean = LocalInspectionMode.current
-    val controller: ClienteRepository = remember(context) {
+    val clienteController: ClienteRepository = remember(context) {
         ClienteRepository(context)
     }
 
-    LaunchedEffect(isPreview, controller) {
+    val computadorController : ComputadorRepository = remember(context){
+        ComputadorRepository(context)
+    }
+    val listaComp : ArrayList<Computador> = ArrayList<Computador>()
+    LaunchedEffect(isPreview,computadorController){
+        if(!isPreview){
+            listaComp.clear()
+            listaComp.addAll(computadorController.findAll())
+        }
+    }
+
+    val listaCliente : ArrayList<Cliente> = ArrayList<Cliente>()
+    LaunchedEffect(isPreview, clienteController) {
         if (!isPreview) {
             stateList.clear()
-            stateList.addAll(controller.findAll())
+            listaCliente.clear()
+            stateList.addAll(clienteController.findAll())
+            listaCliente.addAll(clienteController.findAll())
         }
     }
 
@@ -125,18 +145,64 @@ fun NavigationDrawer(navController : NavController){
                         }
                     }
 
-                    Button(
+                    Column(verticalArrangement = Arrangement.SpaceEvenly){
+                        Button(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = colorResource(R.color.black),
                             contentColor = colorResource(R.color.white)
                         ),
                         onClick = {
-                            //TODO colocar ação
+                            if(!listaComp.isEmpty()){
+                                backup.saveFile(context,
+                                    "todos computadores",
+                                    listaComp
+                                )
+                                notificacao.showNotification("Backup concluido",
+                                    "Backup dos computadores concluido com sucesso"
+                                )
+                            } else {
+                                alertaState = AlertaMsg(
+                                    "Não foi possivel realizar backup",
+                                    "OK",
+                                    {
+                                    }
+                                )
+                            }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(50)
                     ) {
-                        Text("Backup dos dados")
+                        Text("Backup dos dados dos computadores")
+                    }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Button(
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorResource(R.color.black),
+                                contentColor = colorResource(R.color.white)
+                            ),
+                            onClick = {
+                                if(!listaCliente.isEmpty()){
+                                    backup.saveFile2(context,
+                                        "todos clientes",
+                                        listaCliente
+                                    )
+                                    notificacao.showNotification("Backup concluido",
+                                        "Backup dos cliente concluido com sucesso"
+                                    )
+                                } else {
+                                    alertaState = AlertaMsg(
+                                        "Não foi possivel realizar backup",
+                                        "OK",
+                                        {
+                                        }
+                                    )
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(50)
+                        ) {
+                            Text("Backup dos dados dos clientes")
+                        }
                     }
                 }
             }
@@ -228,5 +294,11 @@ fun NavigationDrawer(navController : NavController){
                 }
             }
         }
+    }
+    alertaState?.let {
+        Alerta(
+            config = it,
+            onDismiss = { alertaState = null }
+        )
     }
 }
