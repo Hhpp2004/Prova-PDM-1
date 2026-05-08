@@ -1,6 +1,8 @@
 package com.example.prova.View.Components
 
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,9 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -60,7 +63,13 @@ fun TelaComputador(navController : NavController, id : String){
     val computadorBanco = computadorController.findById(id)
     val clienteBanco = computadorBanco.fkCpf
 
-    Column(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white))){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(R.color.white))
+            .verticalScroll(rememberScrollState())
+            .imePadding()
+    ){
         Column(modifier = Modifier.fillMaxWidth().height(100.dp).background(colorResource(R.color.black))){
             Spacer(modifier = Modifier.height(40.dp))
             Button(
@@ -109,7 +118,7 @@ fun TelaComputador(navController : NavController, id : String){
             value = modelo,
             onValueChange = {modelo = it},
             placeholder = {Text(computadorBanco.modelo)},
-            modifier = Modifier.width(380.dp).padding(start = 13.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(15.dp))
         OutlinedTextField(
@@ -127,7 +136,7 @@ fun TelaComputador(navController : NavController, id : String){
                 }
             },
             placeholder = {Text("${computadorBanco.memoriaRam} gb")},
-            modifier = Modifier.width(380.dp).padding(start = 13.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
@@ -153,7 +162,7 @@ fun TelaComputador(navController : NavController, id : String){
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
             ),
-            modifier = Modifier.width(380.dp).padding(start = 13.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(15.dp))
         OutlinedTextField(
@@ -171,13 +180,16 @@ fun TelaComputador(navController : NavController, id : String){
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
             ),
-            modifier = Modifier.width(380.dp).padding(start = 13.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(30.dp))
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             Button(
-                modifier = Modifier.padding(start = 12.dp)
-                    .width(120.dp)
+                modifier = Modifier
+                    .weight(1f)
                     .height(40.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(R.color.white),
@@ -216,10 +228,10 @@ fun TelaComputador(navController : NavController, id : String){
                     fontSize = 15.sp
                 )
             }
-            Spacer(modifier = Modifier.width(80.dp))
             Button(
-                modifier = Modifier.padding(start = 12.dp).height(40.dp)
-                    .width(120.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(40.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(R.color.vermelho),
                     contentColor = colorResource(R.color.white)

@@ -44,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -192,6 +193,19 @@ fun NavigationDrawer(navController : NavController){
                         }
                     }
                 } else {
+                    Text("Lista de Clientes",
+                        fontSize = 22.sp,
+                        color = colorResource(R.color.black),
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    HorizontalDivider(
+                        modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                        color = colorResource(R.color.black),
+                        thickness = 2.dp
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
                     LazyColumn(modifier = Modifier.fillMaxSize()){
                         items(stateList){ cliente ->
                             Text(
