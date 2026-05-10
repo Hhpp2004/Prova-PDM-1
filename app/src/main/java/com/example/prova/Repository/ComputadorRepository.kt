@@ -3,11 +3,11 @@ package com.example.prova.Repository
 import android.content.ContentValues
 import android.content.Context
 import com.example.prova.Database.BancoDeDados
+import com.example.prova.Models.Cliente
 import com.example.prova.Models.Computador
 
 class ComputadorRepository(context : Context) {
     private val myDatabase = BancoDeDados(context)
-    private val clienteRepository: ClienteRepository = ClienteRepository(context)
 
     fun save(computador : Computador) {
         val dbInsert = myDatabase.writableDatabase
@@ -37,8 +37,13 @@ class ComputadorRepository(context : Context) {
                         val memoriaRam = getFloat(getColumnIndexOrThrow("memoria_ram"))
                         val fkCpf = getString(getColumnIndexOrThrow("fk_cpf"))
                         val preco = getFloat(getColumnIndexOrThrow("preco"))
-                        val cliente = clienteRepository.findByCpf(fkCpf)
-                        if(cliente != null){
+                        val cliente = Cliente(
+                            cpf = fkCpf,
+                            nome = "",
+                            telefone = "",
+                            email = "",
+                            foto = null
+                        )
                             list.add(
                                 Computador(
                                     id = id,
@@ -48,7 +53,7 @@ class ComputadorRepository(context : Context) {
                                     preco = preco
                                 )
                             )
-                        }
+
                     }
                 }
                 return list
@@ -70,8 +75,14 @@ class ComputadorRepository(context : Context) {
                         val memoriaRam = getFloat(getColumnIndexOrThrow("memoria_ram"))
                         val cpfDb = getString(getColumnIndexOrThrow("fk_cpf"))
                         val preco = getFloat(getColumnIndexOrThrow("preco"))
-                        val cliente = clienteRepository.findByCpf( cpfDb)
-                        if(cliente != null){
+                        val cliente = Cliente(
+                            cpf = cpfDb,
+                            nome = "",
+                            telefone = "",
+                            email = "",
+                            foto = null
+                        )
+
                             lista.add(
                                 Computador(
                                     id = id,
@@ -81,7 +92,7 @@ class ComputadorRepository(context : Context) {
                                     preco = preco
                                 )
                             )
-                        }
+
                     }
                 }
                 return lista
@@ -100,7 +111,13 @@ class ComputadorRepository(context : Context) {
                     val memoriaRam = cursor.getFloat(cursor.getColumnIndexOrThrow("memoria_ram"))
                     val fkCpf = cursor.getString(cursor.getColumnIndexOrThrow("fk_cpf"))
                     val preco = cursor.getFloat(cursor.getColumnIndexOrThrow("preco"))
-                    val cliente = clienteRepository.findByCpf(fkCpf)
+                    val cliente = Cliente(
+                        cpf = fkCpf,
+                        nome = "",
+                        telefone = "",
+                        email = "",
+                        foto = null
+                    )
                     if(cliente != null){
                         return Computador(
                             id = id,

@@ -7,6 +7,8 @@ Aplicativo Android desenvolvido em Kotlin com Jetpack Compose para cadastrar, li
 - Cadastro de clientes com nome, CPF, email e telefone.
 - Listagem de clientes na tela inicial.
 - Visualização, atualização e remoção de clientes.
+- Foto de perfil para clientes usando câmera ou galeria.
+- Editor de enquadramento circular para ajustar zoom e posição da foto antes de salvar.
 - Cadastro de computadores vinculados a um cliente.
 - Listagem de computadores por cliente.
 - Visualização, atualização, transferência de dono e remoção de computadores.
@@ -19,6 +21,7 @@ Aplicativo Android desenvolvido em Kotlin com Jetpack Compose para cadastrar, li
 - Jetpack Compose
 - Material 3
 - Navigation Compose
+- Coil Compose
 - SQLite com `SQLiteOpenHelper`
 - Gradle Kotlin DSL
 
@@ -53,7 +56,7 @@ O app usa um banco SQLite local chamado `Prova`, criado em `BancoDeDados.kt`.
 
 Tabelas:
 
-- `cliente`: CPF, nome, email e telefone.
+- `cliente`: CPF, nome, email, foto e telefone.
 - `computador`: ID, modelo, memoria RAM, preco e CPF do cliente dono.
 
 ## Backup dos Dados
@@ -107,10 +110,24 @@ Para instalar em um dispositivo conectado:
 - Android SDK 36 instalado.
 - Dispositivo ou emulador com Android 14 ou superior, pois o `minSdk` do projeto é 34.
 
+## Foto de Perfil
+
+Na tela de detalhes do cliente, o botão `Adicionar uma foto de perfil` permite tirar uma foto pela câmera ou escolher uma imagem da galeria.
+
+Antes de salvar, o app abre uma tela de enquadramento circular com controles para ajustar:
+
+- zoom;
+- posição horizontal;
+- posição vertical.
+
+Após confirmar, a imagem editada é salva no armazenamento interno do app e o caminho do arquivo é registrado no banco SQLite.
+
 ## Permissões
 
 O app solicita a permissão `POST_NOTIFICATIONS` para exibir notificações locais.
+O app também solicita a permissão `CAMERA` quando o usuário escolhe tirar uma foto de perfil.
 
 ## Observações
 
 - Ao atualizar a versão do banco em `BancoDeDados.kt`, o método `onUpgrade` recria as tabelas, apagando os dados locais existentes.
+- As fotos de perfil ficam salvas no armazenamento interno do app, dentro da pasta `Fotos`.

@@ -168,7 +168,8 @@ fun clienteScreen(navController : NavController){
                         var cliente : Cliente = Cliente(nome = nome,
                             telefone = telefone,
                             cpf = cpf,
-                            email = email
+                            email = email,
+                            foto = null
                         )
                         controller.save(cliente)
                         notification.showNotification("Cliente cadastrado","Um novo cliente foi cadastrado na nossa base de dados.")

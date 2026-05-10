@@ -37,7 +37,8 @@ class ClienteRepository(context : Context) {
                     val nome = getString(getColumnIndexOrThrow("nome"))
                     val email = getString(getColumnIndexOrThrow("email"))
                     val telefone = getString(getColumnIndexOrThrow("telefone"))
-                    cliente = Cliente(email,telefone,nome,cpf)
+                    val foto = getString(getColumnIndexOrThrow("foto"))
+                    cliente = Cliente(email,telefone,nome,cpf,foto)
                     list.add(cliente)
                 }
             }
@@ -60,13 +61,26 @@ class ClienteRepository(context : Context) {
                         cpf = cursor.getString(cursor.getColumnIndexOrThrow("cpf")),
                         nome = cursor.getString(cursor.getColumnIndexOrThrow("nome")),
                         telefone = cursor.getString(cursor.getColumnIndexOrThrow("telefone")),
-                        email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
+                        email = cursor.getString(cursor.getColumnIndexOrThrow("email")),
+                        foto = cursor.getString(cursor.getColumnIndexOrThrow("foto"))
                     )
                 }
                 return null
             }
         } finally {
             dbRead.close()
+        }
+    }
+
+    fun updateByPhoto(cpf : String, pathPhoto : String){
+        val dbUpdate = myDatabase.writableDatabase
+        try{
+            val values = ContentValues().apply{
+                put("foto",pathPhoto)
+            }
+            dbUpdate.update("cliente",values,"cpf = ?",arrayOf(cpf))
+        } finally {
+            dbUpdate.close()
         }
     }
 
